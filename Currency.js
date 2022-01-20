@@ -21,7 +21,6 @@ var currencyUtilities = {
         return pct / 100;
     },
     formatMajorUnitString: function (value) {
-        // return value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')
         var result = value;
 
         if (value > 999) {
@@ -54,8 +53,8 @@ var currencyFactory = (function (utilities) {
             Object.prototype.toString.call(config) !== '[object Object]'
         ) {
             config = {
-                displayMinorUnits: 'always', // should have 3 values always | never | nonzero 
-                rounding: 'nearest' // 3 values nearest | down | up
+                displayMinorUnits: 'always', // 3 allowed values >> 'always' | 'never' | 'nonzero' 
+                rounding: 'nearest' // 3 allowed values >> 'nearest' | 'up' | 'down'
             };
         }
 
@@ -91,7 +90,9 @@ var currencyFactory = (function (utilities) {
             return this;
         };
         currency.percentage = function (value) {
-            _currentValue *= value instanceof Currency ? value.raw() : utilities.normalizePercent(value);
+            if (typeof value === 'string' || typeof value === number) {
+                _currentValue *=  utilities.normalizePercent(value);
+            }
 
             return this;
         };
@@ -110,7 +111,6 @@ var currencyFactory = (function (utilities) {
             var minorUnit = value % 100;
             var majorUnit = utilities.formatMajorUnitString((value - minorUnit) / 100);
             switch (config.displayMinorUnits) {
-                
                 case 'never':
                     minorUnit = '';
                     break;
