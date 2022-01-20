@@ -53,8 +53,8 @@ var currencyFactory = (function (utilities) {
             Object.prototype.toString.call(config) !== '[object Object]'
         ) {
             config = {
-                displayMinorUnits: 'always', // 3 allowed values >> 'always' | 'never' | 'nonzero' 
-                rounding: 'nearest' // 3 allowed values >> 'nearest' | 'up' | 'down'
+                displayMinorUnits: 'always', // 'always' | 'never' | 'nonzero' 
+                rounding: 'nearest' // 'nearest' | 'up' | 'down'
             };
         }
 
@@ -90,7 +90,7 @@ var currencyFactory = (function (utilities) {
             return this;
         };
         currency.percentage = function (value) {
-            if (typeof value === 'string' || typeof value === number) {
+            if (typeof value === 'string' || typeof value === 'number') {
                 _currentValue *=  utilities.normalizePercent(value);
             }
 
