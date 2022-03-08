@@ -13,7 +13,7 @@ var currencyUtilities = {
     normalizeOperand: function (value) {
         var val = typeof value === 'string' ? this.convertStringToNumber(value) : value;
     
-        return val > 0 ? val : 1;
+        return val >= 0 ? val : 1;
     },
     normalizePercent: function (value) {
         var pct = typeof value === 'string' ? this.convertStringToNumber(value) : value;
