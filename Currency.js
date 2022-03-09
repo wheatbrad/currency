@@ -157,6 +157,3 @@ var currencyFactory = (function (utilities) {
         return currency.add(value);
     }
 })(currencyUtilities);
-
-const total = currencyFactory('$1.44').divide(0);
-console.log(total.print());
