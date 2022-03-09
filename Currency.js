@@ -13,7 +13,7 @@ var currencyUtilities = {
     normalizeOperand: function (value) {
         var val = typeof value === 'string' ? this.convertStringToNumber(value) : value;
     
-        return val > 0 ? val : 1;
+        return val >= 0 ? val : 1;
     },
     normalizePercent: function (value) {
         var pct = typeof value === 'string' ? this.convertStringToNumber(value) : value;
@@ -85,7 +85,11 @@ var currencyFactory = (function (utilities) {
             return this;
         };
         currency.divide = function (value) {
-            _currentValue /= value instanceof Currency ? value.raw() : utilities.normalizeOperand(value);
+            value = value instanceof Currency ? value.raw() : utilities.normalizeOperand(value);
+
+            if (value === 0) return this;
+
+            _currentValue /= value;
 
             return this;
         };
