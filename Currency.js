@@ -86,7 +86,11 @@ var currencyFactory = (function (utilities) {
             return this;
         };
         currency.divide = function (value) {
-            _currentValue /= value instanceof Currency ? value.raw() : utilities.normalizeOperand(value);
+            value = value instanceof Currency ? value.raw() : utilities.normalizeOperand(value);
+
+            if (value === 0) return this;
+
+            _currentValue /= value;
 
             return this;
         };
@@ -153,3 +157,6 @@ var currencyFactory = (function (utilities) {
         return currency.add(value);
     }
 })(currencyUtilities);
+
+const total = currencyFactory('$1.44').divide(0);
+console.log(total.print());
