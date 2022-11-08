@@ -58,13 +58,16 @@ var currencyFactory = (function (utilities) {
             };
         }
 
-        var roundingConfig = {
-            'nearest': Math.round,
-            'down': Math.floor,
-            'up': Math.ceil
+        var roundingFuncConfig = {
+            'nearest cent': Math.round,
+            'nearest dollar': v => Math.round(v / 100) * 100,
+            'cent down': Math.floor,
+            'dollar down': v => Math.floor(v / 100) * 100,
+            'cent up': Math.ceil,
+            'dollar up': v => Math.ceil(v / 100) * 100
             // TODO: banker's rule - more elaborate model for rounding
         };
-        var roundingFunc = roundingConfig[config.rounding] || roundingConfig['nearest'];
+        var roundingFunc = roundingFuncConfig[config.rounding] || roundingFuncConfig['nearest cent'];
         
         var currency = new Currency();
         var _currentValue = 0;
@@ -131,11 +134,11 @@ var currencyFactory = (function (utilities) {
             return sign + '$' + majorUnit + minorUnit;
         };
         currency.destroy = function () {
-            value          = null;
-            config         = null;
-            roundingConfig = null;
-            roundingFunc   = null;
-            _currentValue  = null;
+            value              = null;
+            config             = null;
+            roundingFuncConfig = null;
+            roundingFunc       = null;
+            _currentValue      = null;
             delete this.add;
             delete this.subtract;
             delete this.multiply;
