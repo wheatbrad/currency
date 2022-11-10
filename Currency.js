@@ -45,8 +45,9 @@ var currencyFactory = (function (utilities) {
      * 
      * @param {string|number} value Optional initial value.
      * @param {object} config Optional configuration object. Contains two properties, 
-     *                        displayMinorUnits (enumerated) values include "alway", "never", "nonzero"
-     *                        and rounding (enumerated) values include "nearest", "down", "up".
+     *                        `displayMinorUnits` (enumerated) values include "alway", "never", "nonzero"
+     *                        and `rounding` (enumerated) values include "nearest cent", "nearest dollar",
+     *                        "cent down", "dollar down", "cent  up", dollar up.
      * @returns Instance of Currency
      */
     return function (value, config) {
