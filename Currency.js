@@ -44,7 +44,9 @@ var currencyFactory = (function (utilities) {
     /**
      * 
      * @param {string|number} value Optional initial value.
-     * @param {object} config Optional configuration object. Contains two properties, displayMinorUnits which can hold the values "alway", "never", "nonzero" and rounding which can hold the values "nearest", "down", "up".
+     * @param {object} config Optional configuration object. Contains two properties, 
+     *                        displayMinorUnits (enumerated) values include "alway", "never", "nonzero"
+     *                        and rounding (enumerated) values include "nearest", "down", "up".
      * @returns Instance of Currency
      */
     return function (value, config) {
@@ -54,20 +56,20 @@ var currencyFactory = (function (utilities) {
         ) {
             config = {
                 displayMinorUnits: 'always', // 'always' | 'never' | 'nonzero' 
-                rounding: 'nearest' // 'nearest' | 'up' | 'down'
+                rounding: 'nearest' // 'cent nearest' | 'cent up' | 'cent down' | 'dollar nearest' | 'dollar down' | 'dollar up'
             };
         }
 
         var roundingFuncConfig = {
-            'nearest cent': Math.round,
-            'nearest dollar': v => Math.round(v / 100) * 100,
+            'cent nearest': Math.round,
             'cent down': Math.floor,
-            'dollar down': v => Math.floor(v / 100) * 100,
             'cent up': Math.ceil,
-            'dollar up': v => Math.ceil(v / 100) * 100
+            'dollar nearest': function(v) { return Math.round(v / 100) * 100 },
+            'dollar down': function(v) { return Math.floor(v / 100) * 100 },
+            'dollar up': function(v) { return Math.ceil(v / 100) * 100 }
             // TODO: banker's rule - more elaborate model for rounding
         };
-        var roundingFunc = roundingFuncConfig[config.rounding] || roundingFuncConfig['nearest cent'];
+        var roundingFunc = roundingFuncConfig[config.rounding] || roundingFuncConfig['cent nearest'];
         
         var currency = new Currency();
         var _currentValue = 0;
